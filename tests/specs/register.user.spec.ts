@@ -1,18 +1,26 @@
 import LoginPage from '../pages/login.page'
-import { userData } from '../data/userData'
+import HomePage from '../pages/home.page'
+import { generateUserData } from '../utils/data/userFaker'
 
-describe('User Registration', () => {
+describe('Teste Case 1: Register User', () => {
+
+  let userfaker: ReturnType<typeof generateUserData>
+
+  beforeEach(async () => {
+    userfaker = generateUserData()
+  })
+
   it('should register a new user successfully', async () => {
-    await LoginPage.open()
-    await LoginPage.registerNewUser(
-      userData.name,
-      userData.email,
-      userData.firstName,
-      userData.lastName
-    )
-
-    await expect(LoginPage.labelAccountCreated).toBeExisting()
+    await HomePage.open()
+    await HomePage.checkSliderCarouselIsVisible()
+    await HomePage.clickBtnSignupLogin()
+    await LoginPage.fillSignup(userfaker.name, userfaker.email)
+    await LoginPage.fillAdressInfo()
+    await LoginPage.clickBtnCreateAccount()
+    await LoginPage.checkAccountCreated()
     await LoginPage.clickBtnContinue()
-    await expect(LoginPage.btnLogout).toBeExisting()
+    await HomePage.checkLoggedUsernameIsVisible(userfaker.name)
+    await HomePage.clickBtnDeleteAccount()
+    await LoginPage.checkAccountDeleted()
   })
 })
