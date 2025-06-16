@@ -1,32 +1,34 @@
-name: WebdriverIO Tests and Allure Report Deploy
+name: Run WebDriverIO tests and deploy Allure Report
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
-  test-and-deploy:
+  test:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v3
         with:
-          node-version: "20.x"
+          node-version: 18
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
-      - name: Run WebdriverIO tests
+      - name: Run WebDriverIO tests
         run: npm run test
 
       - name: Generate Allure Report
-        run: npm run allure:generate
+        run: |
+          npm run allure:generate
+          npm run allure:open # Opcional se quiser validar localmente
 
       - name: Deploy Allure Report to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
