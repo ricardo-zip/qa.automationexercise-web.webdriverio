@@ -1,4 +1,4 @@
-name: WebdriverIO Web CI
+name: WebdriverIO CI
 
 on:
   push:
