@@ -4,7 +4,7 @@ export const config: WebdriverIO.Config = {
     // Runner Configuration
     // ====================
     // WebdriverIO supports running e2e tests as well as unit and component tests.
-    
+
     runner: 'local',
     tsConfigPath: './tsconfig.json',
 
@@ -27,12 +27,14 @@ export const config: WebdriverIO.Config = {
     maxInstances: 10,
     baseUrl: 'https://automationexercise.com',
 
-    capabilities: [{
-        browserName: 'chrome',
-        'goog:chromeOptions': {
-            args: ['--disable-gpu', '--window-size=1920,1080']
-        }
-    }],
+    capabilities: [
+        {
+            browserName: 'chrome',
+            'goog:chromeOptions': {
+                args: ['--headless', '--disable-gpu', '--window-size=1920,1080', '--start-maximized']
+            }
+        },
+    ],
 
     // ===================
     // Test Configurations
@@ -91,7 +93,20 @@ export const config: WebdriverIO.Config = {
     // Test reporter for stdout.
     // The only one supported by default is 'dot'
     // see also: https://webdriver.io/docs/dot-reporter
-    reporters: ['spec'],
+    reporters: [
+        'spec',
+        ['allure', {
+            outputDir: 'allure-results',
+            disableWebdriverStepsReporting: true,
+            disableWebdriverScreenshotsReporting: false,
+        }],
+    ],
+
+    afterTest: async (test, context, { error, result }) => {
+        if (error || result === 1) {
+            await browser.takeScreenshot();
+        }
+    },
 
     // Options to be passed to Mocha.
     // See the full list at http://mochajs.org/
