@@ -6,9 +6,15 @@ class HomePage extends Page {
     public get labelUserLogged() { return $('a:has(i.fa-user) b') }
     public get btnDeleteAccount() { return $('a[href="/delete_account"]') }
     public get sliderCarousel() { return $('#slider-carousel') }
+    public get btnProducts() { return $('a[href="/products"]') }
+    public get btnCart() { return $('a[href="/view_cart"]') }
 
     public async clickBtnSignupLogin() {
         await this.btnSignupLogin.click()
+    }
+
+    public async clickBtnProducts() {
+        await this.btnProducts.click()
     }
 
     public async clickBtnDeleteAccount() {
@@ -21,6 +27,15 @@ class HomePage extends Page {
 
     public async checkSliderCarouselIsVisible() {
         await expect(this.sliderCarousel).toBeDisplayed()
+    }
+    public async clickViewProduct(productId: string) {
+        const button = await $(`a[href="/product_details/${productId}"]`);
+        await button.waitForExist();
+        await button.click();
+    }
+
+    public async clickBtnCart() {
+        await this.btnCart.click()
     }
 
     public open() {

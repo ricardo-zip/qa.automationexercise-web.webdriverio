@@ -24,14 +24,14 @@ export const config: WebdriverIO.Config = {
     // Capabilities
     // ============
 
-    maxInstances: 10,
+    maxInstances: 1,
     baseUrl: 'https://automationexercise.com',
 
     capabilities: [
         {
             browserName: 'chrome',
             'goog:chromeOptions': {
-                args: ['--headless', '--disable-gpu', '--window-size=1920,1080', '--start-maximized']
+                args: ['--disable-gpu', '--window-size=1920,1080', '--start-maximized']
             }
         },
     ],

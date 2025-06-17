@@ -1,5 +1,5 @@
 import { SignupForm } from '../utils/helpers/fillSignupForm';
-import { AddressForm } from '../utils/helpers/fillAdressForm';
+import { AddressForm } from '../utils/helpers/fillAddressForm';
 import Page from '../pages/page';
 
 class LoginPage extends Page {
@@ -15,7 +15,7 @@ class LoginPage extends Page {
         await this.signupForm.fillSignupForm(name, email)
     }
 
-    public async fillAdressInfo() {
+    public async fillAddressInfo() {
         await this.addressForm.fillAddressInfo()
     }
 
